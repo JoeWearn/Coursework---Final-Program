@@ -24,12 +24,8 @@ class MenuHandler:
 
         self.window = Tk()
         
-        self.window.title(
-            "Menu"
-        )
-        self.window.geometry(
-            "215x50"
-        )
+        self.window.title("Menu")
+        self.window.geometry("215x50")
         self.window.configure(
             background="#CEEAF6"
         )
@@ -37,35 +33,34 @@ class MenuHandler:
         room_1 = Button(
             self.window,
             text = "Room 1", bg = "white",
-            command=lambda: self.show(1)
+            command = lambda: self.show(1)
         )                               # Creates a button to see room 1 bookings
         room_1.grid(
-            padx=10, pady=10, row=2, column=1
+            padx = 10, pady = 10, row = 2, column = 1
         )
 
         room_2 = Button(
             self.window,
             text = "Room 2", bg = "white",
-            command=lambda: self.show(2)
+            command  =lambda: self.show(2)
         )                               # Creates a button to see room 2 bookings
         room_2.grid(
-            padx=10, row=2, column=2
+            padx = 10, row = 2, column = 2
         )
 
         room_3 = Button(
             self.window,
             text = "Room 3",
             bg = "white",
-            command=lambda: self.show(3)
+            command = lambda: self.show(3)
         )                               # Creates a button to see room 3 bookings
         room_3.grid(
-            padx=10, row=2, column=3
+            padx = 10, row = 2, column = 3
         )
 
         self.window.mainloop()
 
-    def show(
-        self,
+    def show(self,
         room_number
     ):
         """

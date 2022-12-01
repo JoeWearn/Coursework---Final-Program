@@ -20,9 +20,7 @@ ELEMENTS_FOLDER = "elements/"       # Defines file constants
 # Defines classes and methods
 
 class LoginHandler:
-    def __init__(
-        self
-    ):
+    def __init__(self):
         """
         Creates the login screen GUI & checks if username and password match for an account.
         """
@@ -30,22 +28,17 @@ class LoginHandler:
         self.register_account = False       # Boolean for regiserting an account
         self.hidden = False                 # Boolean for whether password is hidden
 
-    def register(
-        self
-    ):
+    def register(self):
         """
         Method for when user successfully logs in - destroys window and register_account is True.
         """
         self.window.destroy()
         self.register_account = True
 
-    def login(
-        self
-    ):
+    def login(self):
         """
         Authenticates login for existing accounts.
         """
-
         self.credentials = [
             self.login_username.get(),
             self.login_password.get()
@@ -54,18 +47,14 @@ class LoginHandler:
 
         # SQL for selecting the email and password from database corresponding to the username input by user
 
-        connection = sqlite3.connect(
-            "sql_database_bookings.db"
-        )                                       # Connects to database
+        connection = sqlite3.connect("sql_database_bookings.db")    # Connects to database
         crsr = connection.cursor()              # Creates a cursor for the database
         retrieve_email_password = f"""  \
             SELECT Email, Password \
             FROM Customer_details \
             WHERE Email = ("{self.credentials[0]}") \
         """                                     # Defines SQL command
-        crsr.execute(
-            retrieve_email_password
-        )                                       # Excutes SQL command
+        crsr.execute(retrieve_email_password)   # Excutes SQL command
         output = crsr.fetchone()                # Fetches result and defines as output
         connection.close()                      # Closes connection to database
 
@@ -86,12 +75,8 @@ class LoginHandler:
         Creates login screen visuals using Tkinter.
         """
         self.window = Tk()
-        self.window.geometry(
-            "1536x864"
-        )
-        self.window.title(
-            "Login"
-        )
+        self.window.geometry("1536x864")
+        self.window.title("Login")
         self.window.configure(
             background = "#CEEAF6"
         )
@@ -206,8 +191,7 @@ class LoginHandler:
 
         self.window.mainloop()
 
-    def hide(
-        self,
+    def hide(self,
         password
     ):
         """
@@ -215,23 +199,14 @@ class LoginHandler:
         'password_visibility_button' button is clicked.
         """
         if self.hidden == True:
-            password.config(
-                show=""
-            )
+            password.config(show = "")
             self.hidden = False
         elif self.hidden == False:
-            password.config(
-                show="*"
-            )
+            password.config(show = "*")
             self.hidden = True
 
-class EntryPlaceholders(
-    Entry
-):
-    def __init__(
-        self,
-        *args, **kwargs
-    ):
+class EntryPlaceholders(Entry):
+    def __init__(self, *args, **kwargs):
         """
         Extends generic Tkinter Entry class - when entry box is clicked, placeholder text is wiped. When no longer clicked, if the 
         entry box is empty, replaces placeholder text.
@@ -239,43 +214,28 @@ class EntryPlaceholders(
         self.placeholder = kwargs.pop(      # Pops placeholder text from kwargs and stores as self.placeholder
             "placeholder", ""
         )                                   
-        super().__init__(                   # Inherits __init__ from Tkinter Entry class
-            *args, **kwargs 
-        )   
+        super().__init__(*args, **kwargs)   # Inherits __init__ from Tkinter Entry class   
 
-        self.insert(
-            "end",
-            self.placeholder
-        )                               # Inserts placeholder text initially
-        self.bind(
-            "<FocusIn>",
-            self.remove_placeholder
-        )                               # When clicked on, removes placeholder text
-        self.bind(
-            "<FocusOut>",
-            self.add_placeholder
-        )                               # When clicked off, replaces placeholder text
+        self.insert(                # Inserts placeholder text initially
+            "end", self.placeholder
+        )                               
+        self.bind(                  # When clicked on, removes placeholder text
+            "<FocusIn>", self.remove_placeholder
+        )                               
+        self.bind(                  # When clicked off, replaces placeholder text
+            "<FocusOut>", self.add_placeholder
+        )                               
 
-    def remove_placeholder(
-        self,
-        event
-    ):
+    def remove_placeholder(self, event):
         """
         Remove placeholder text if present.
         """
         if self.get() == self.placeholder:      # If when clicked, the contents of the entry box are still the placeholder text
-            self.delete(                        # ... it gets removed
-                0, "end"
-            )                 
+            self.delete( 0, "end")              # ... it gets removed
 
-    def add_placeholder(
-        self, 
-        event
-    ):
+    def add_placeholder(self, event):
         """
         Add placeholder text if the entrybox is empty.
         """
         if self.placeholder and self.get() == "":   # If placeholder and contents of entry box are empty / nothing
-            self.insert(                            # ... inserts placeholder back into entry box
-                0, self.placeholder
-            )                                       
+            self.insert(0, self.placeholder)        # ... inserts placeholder back into entry box                                     

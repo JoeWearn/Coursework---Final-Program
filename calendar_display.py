@@ -18,8 +18,8 @@ database will be the admin. If you want to change the admin account, change this
 """
 
 class CalendarGUIHandler:
-    def __init__(
-        self, room_number
+    def __init__(self,
+    room_number
     ):
         """
         Creates a display for dates booked for a room.
@@ -38,23 +38,19 @@ class CalendarGUIHandler:
         )
         self.go_back = False                # Boolean for going back to menu
 
-    def class_run(              # Initial method called
-        self, credentials
+    # Initial method called
+    def class_run(self,
+        credentials
     ):
         self.window = Tk()
 
-        self.window.title(
-            "Calendar"
-        )
-        self.window.geometry(
-            "1536x864"
-        )
+        self.window.title("Calendar")
+        self.window.geometry("1536x864")
         self.window.configure(
             background = "#CEEAF6"
         )
 
         self.window.columnconfigure(    # Centres window
-
             0, weight=1
         )                       
 
@@ -72,9 +68,7 @@ class CalendarGUIHandler:
 
         self.go_back = False
 
-        connection = sqlite3.connect(   # Connects to database
-            "sql_database_bookings.db"
-        )                               
+        connection = sqlite3.connect("sql_database_bookings.db")    # Connects to database                               
         crsr = connection.cursor()      # Creates Cursor for database
         select_id_sql = f""" \
             SELECT (Customer_ID)    \
@@ -82,9 +76,7 @@ class CalendarGUIHandler:
             WHERE Email = ("{credentials[0]}") \
             AND Password = ("{credentials[1]}") \
         """                             # Retrieves Customer ID for the account with the user's credentials
-        crsr.execute(                   # Executes SQL command
-            select_id_sql
-        )                              
+        crsr.execute(select_id_sql)     # Executes SQL command                              
         user_ID = crsr.fetchone()       # Defines variable with selected Customer_ID
 
         update = Button(                # Creates a button to update bookings in database
@@ -112,19 +104,16 @@ class CalendarGUIHandler:
         )
         self.window.mainloop()
 
-    def back(                           # Method to close window & go_back becomes True
-        self
-    ):                              
+    # Method to close window & go_back becomes True
+    def back(self):                              
         self.window.destroy()
         self.go_back = True
 
-    def update_func(                    # Method to update database with new bookings
-        self,
+     # Method to update database with new bookings
+    def update_func(self,
         user_ID
     ):
-        connection = sqlite3.connect(
-            "sql_database_bookings.db"
-        )                                       # Connects to database
+        connection = sqlite3.connect("sql_database_bookings.db")    # Connects to database
         crsr = connection.cursor()              # Creates cursor for database
         for booking in self.dates_dict:         # Loops for each element in dictionary
             insert_bookings = f"""      \
@@ -143,8 +132,8 @@ class CalendarGUIHandler:
         connection.commit()                             # Commits changes to database
         connection.close()                              # Closes connection
 
-    def run(                         # Calls methods needed to generate calendar GUI.    
-        self,
+    # Calls methods needed to generate calendar GUI.  
+    def run(self,
         month, year, user_ID
     ):
         self.print_month_year(      # Calls method for months at top of GUI
@@ -163,8 +152,9 @@ class CalendarGUIHandler:
             month, year, user_ID
         )
 
-    def print_month_year(
-        self, month, year           # Creates function to output the month and year at top of calendar
+    # Creates method to output the month and year at top of calendar
+    def print_month_year(self,
+        month, year           
     ):
 
         month_list = [
@@ -174,8 +164,10 @@ class CalendarGUIHandler:
             'October', 'November', 'December']
 
         title_month = month_list[int(month)-1]
+
+        # Output month and year at top of calendar
         month_year = Label(
-            self._frame,                # Output month and year at top of calendar
+            self._frame,        
             bg = "#fde3d4",
             text = title_month + " " + str(year),
             font = ("Times New Roman", 20),
@@ -184,15 +176,15 @@ class CalendarGUIHandler:
             column = 2, row = 0, columnspan = 3
         )
 
-    def switch_months(          # Function to switch calendar's month (1 for forwards and -1 for backwards)
-        self,
+    # Function to switch calendar's month (1 for forwards and -1 for backwards)
+    def switch_months(self,
         direction,
-        month, year, user_ID  
+        month, year,
+        user_ID  
     ):
 
         # Check if we are going to next year
         if (
-
             month == 12
             and
             direction == 1
@@ -214,30 +206,29 @@ class CalendarGUIHandler:
             month += direction
 
 
-        self._frame.destroy()               # Destroys _frame
-        self._frame = Frame(                # Remakes _frame
+        self._frame.destroy()        # Destroys _frame
+        self._frame = Frame(         # Remakes _frame
             self.window,
             bg = "#fde3d4",
             highlightbackground = "black",
-             highlightthickness = 1
+            highlightthickness = 1
         )
         self._frame.grid()           # Remakes grid
         self.run(                    # Re-runs method to create GUI
             month, year, user_ID
         )  
 
-    def make_buttons(                # Method to create buttons to change month
-        self,
+     # Method to create buttons to change month
+    def make_buttons(self,
         month, year, user_ID        
     ):
-         # Last month
+        # Last month
         go_back = Button(                  
             self._frame,
             text = "Previous",
             width = 10,
             bg = "white",
-            command = lambda: self.switch_months(
-                -1,
+            command = lambda: self.switch_months(-1,
                 month, year, user_ID
             )
         )
@@ -251,8 +242,7 @@ class CalendarGUIHandler:
             text = "Next",
             width = 10,
             bg = "white",
-            command = lambda: self.switch_months(
-                1,
+            command = lambda: self.switch_months(1,
                 month, year, user_ID
             )
         )
@@ -260,8 +250,7 @@ class CalendarGUIHandler:
             column = 6, row = 0
         )
 
-    def month_generator(
-        self,
+    def month_generator(self,
         start_date, number_of_days,
         month, year, user_ID
     ):
@@ -289,14 +278,15 @@ class CalendarGUIHandler:
                 column = n, row = 1, sticky = "nsew"
             )
 
-        index = 0
+        index = 0   # For below loop
         day = 1
 
-        dict = {}
+        dict = {}   # Dict for buttons
 
         r_no = self.room_number
+
         for row in range(6):
-            for column in range(7):
+            for column in range(7):     # 7 cross for days of week
                 if (
                     index >= start_date                         # Creates a frame that will hold each day and button
                     and
@@ -307,8 +297,8 @@ class CalendarGUIHandler:
                         self._frame, bg = "#fde3d4"
                     )
 
-                    button = CalendarDayButton(         # Extended generic Tkinter button for all buttons generated in calendar
-                        self,
+                    # Extended generic Tkinter button for all buttons generated in calendar
+                    button = CalendarDayButton(self,
                         year, month, day,
                         user_ID, r_no,
                         day_frame,
@@ -317,7 +307,7 @@ class CalendarGUIHandler:
                         text = "Available"
                     )
                     button.grid(
-                        row=1
+                        row = 1
                     )
 
                     # Adds the text object to the dict
@@ -334,7 +324,7 @@ class CalendarGUIHandler:
                         day_frame, text = day, bg = "#fde3d4"
                     )
                     day_number.grid(
-                        row=0
+                        row = 0
                     )
                     day += 1
                 index += 1
@@ -346,28 +336,22 @@ class CalendarGUIHandler:
                     if month == date[1]:
                         dict[date[2]].set_booked()
 
-    def load_bookings(
-        self
+    def load_bookings(self
     ):
-        connection = sqlite3.connect(
-            "sql_database_bookings.db"
-        )
+        connection = sqlite3.connect("sql_database_bookings.db")
         crsr = connection.cursor()
         select_bookings = f"""  \
             SELECT Year,Month,Day,Room_Number   \
             FROM Bookings   \
         """
-        crsr.execute(
-            select_bookings
-        )
+        crsr.execute(select_bookings)
         output = crsr.fetchall()
         connection.close()
 
         return output
 
     # Create function for calculating if it is a leap year
-    def is_leap_year(
-        self,
+    def is_leap_year(self,
         year
     ):
         # Calculation for if leap year
@@ -379,15 +363,14 @@ class CalendarGUIHandler:
         else:
             return False
 
-    
-    def day_month_starts(  # Create method for calculating what weekday month starts
-        self,
+
+    def day_month_starts(self,
         month, year
     ):
         """
         Calculates the weekday any given month starts on using Zeller's congruence. Zeller's congruence accounts for the inconsistent
         lengths of February by treating it and January as being part of the previous year (therefore year - 1) and considers them to be
-        the 13th and 14th month, hence, the if statements. Assuming neither Jan or Feb, the algorithm runs as expected.
+        the 13th and 14th month, hence the if statements. Assuming neither Jan or Feb, the algorithm runs as expected.
         """
         if month == 1:
             months_math = 13
@@ -405,10 +388,9 @@ class CalendarGUIHandler:
         zc = ((zc + 5) % 7)
         return zc
 
-    def days_in_month(
-        self,
+    def days_in_month(self,
         month, year
-    ):
+):
         """
         Calculates the number of days for the given month accounting for leap years.
         """
@@ -435,9 +417,7 @@ class CalendarGUIHandler:
 
         # Check to see if leap year to determine how many days in February
         else:                   
-            leap_year = self.is_leap_year(
-                year
-            )             
+            leap_year = self.is_leap_year(year)             
 
             if leap_year:
                 number_of_days = 29
@@ -449,8 +429,7 @@ class CalendarGUIHandler:
 
 
 class CalendarDayButton(Button):
-    def __init__(
-        self,
+    def __init__(self,
         calendar,
         year, month, day,
         user_ID, r_no,
@@ -468,12 +447,8 @@ class CalendarDayButton(Button):
         booked again. However, another 'if' check is ran to see if the person clicking is either the person who made the booking or the
         account with the admin ID. If either of the cases are true, clicking the button will result in its removal from the database.
         """
-        super().__init__(
-            *args, **kwargs
-        )                           # Inherits __init__ from generic Tkiner Button class
-        self.config(
-            command = self.button_click
-        )                       # When button clicked  -> runs button_click()
+        super().__init__(*args, **kwargs)           # Inherits __init__ from generic Tkiner Button class
+        self.config(command = self.button_click)    # When button clicked  -> runs button_click()
 
         self.selected = False       # Boolean for whether a date has been selected (NOT booked)
         self.booked = False         #   "      "     "    "   "   "    "  booked
@@ -485,9 +460,7 @@ class CalendarDayButton(Button):
         self.user_ID = user_ID      # ...         
         self.r_no = r_no            # ...
 
-    def button_click(
-        self
-    ):                              # On button click ...
+    def button_click(self):                             # On button click ...
 
         if self.booked == False:                        # If this date isn't booked
             if self.selected == False:                      # And if they have not already selected it
@@ -507,9 +480,8 @@ class CalendarDayButton(Button):
                 )                                               # Reverts button colour to normal
                 self.selected = False                           # Reverts selected to False
         if self.booked == True:                         # If it is booked
-            connection = sqlite3.connect(               
-                "sql_database_bookings.db"
-            )                                               # Retrieves the Customer_ID for the booking
+            connection = sqlite3.connect("sql_database_bookings.db")
+                                                            # Retrieves the Customer_ID for the booking
             crsr = connection.cursor()
             select_ID = f"""  \
                 SELECT Customer_ID  \
@@ -519,13 +491,11 @@ class CalendarDayButton(Button):
                 AND Day = ("{self.day}")    \
                 AND Room_Number = ("{self.r_no}")   \
             """
-            crsr.execute(
-                select_ID
-            )
+            crsr.execute(select_ID)
             booking_customer_ID_1 = crsr.fetchone()         # Stores output of query as booking_customer_ID_1
             connection.close()
 
-            # Note - SQL retrieves as Tuple data types - therefore must specify position of data in Tuple - e.g. [0] to compare
+            # Note - SQL retrieves as Tuple data types - therefore must specify position of data in Tuple - e.g. [0] 
             if ((int(self.user_ID[0]) == booking_customer_ID_1[0])      # If ID of user is the same as the person who made the booking
                 or
                 (int(self.user_ID[0]) == admin_ID)                      # Or if user is on the Admin account

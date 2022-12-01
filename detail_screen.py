@@ -8,14 +8,10 @@ import re
 
 
 class RegisterHandler:
-    def __init__(
-        self
-    ):
+    def __init__(self):
         self.registered = False     # Boolean for if user successfully registers an account
 
-    def send_user_data(
-        self
-    ):
+    def send_user_data(self):
         """
         Sends user data to database - Email, password, first name, last name, phone number, address.
         """
@@ -29,23 +25,19 @@ class RegisterHandler:
             and
             (re.fullmatch(phone_number_regex, str(self.register_phone_number.get())))
         ):
-            connection = sqlite3.connect(   # Connects to database    
-                "sql_database_bookings.db"
-            )                               
+            connection = sqlite3.connect("sql_database_bookings.db")    # Connects to database                               
             crsr = connection.cursor()      # Creates a cursor for the database
             insert_to = f"""    \
                 INSERT INTO Customer_details    \
                 (Email,Password,First_name,Last_name,Phone_number,Address)  \
-                VALUES ("{self.register_email.get()}",  \
+                VALUES("{self.register_email.get()}",  \
                 "{self.register_password.get()}",   \
                 "{self.register_first_name.get()}", \
                 "{self.register_last_name.get()}",   \
                 "{self.register_phone_number.get()}",   \
                 "{self.register_address.get()}")   \
             """                         # Sends user data to database
-            crsr.execute(               # Executes sql command
-                insert_to
-            )                           
+            crsr.execute(insert_to)     # Executes sql command                           
             connection.commit()         # Commits insert to database
             connection.close()          # Closes connection
             self.window.destroy()       # Closes window
@@ -65,12 +57,8 @@ class RegisterHandler:
         Registers customer information to database.
         """
         self.window = Tk()
-        self.window.geometry(
-            "1536x864"
-        )
-        self.window.title(
-            "Register"
-        )
+        self.window.geometry("1536x864")
+        self.window.title("Register")
         self.window.configure(
             background = "#CEEAF6"
         ) 
@@ -155,13 +143,8 @@ class RegisterHandler:
         self.window.mainloop()
 
 
-class EntryPlaceholders(
-    Entry
-):
-    def __init__(
-        self,
-        *args, **kwargs
-    ):
+class EntryPlaceholders(Entry):
+    def __init__(self, *args, **kwargs):
         """
         Extends generic Tkinter Entry class - when entry box is clicked, placeholder text is wiped. When no longer clicked, if the 
         entry box is empty, replaces placeholder text.
@@ -169,43 +152,28 @@ class EntryPlaceholders(
         self.placeholder = kwargs.pop(      # Pops placeholder text from kwargs and stores as self.placeholder
             "placeholder", ""
         )                                   
-        super().__init__(                   # Inherits __init__ from Tkinter Entry class
-            *args, **kwargs 
-        )   
+        super().__init__(*args, **kwargs)   # Inherits __init__ from Tkinter Entry class   
 
-        self.insert(
-            "end",
-            self.placeholder
-        )                               # Inserts placeholder text initially
-        self.bind(
-            "<FocusIn>",
-            self.remove_placeholder
-        )                               # When clicked on, removes placeholder text
-        self.bind(
-            "<FocusOut>",
-            self.add_placeholder
-        )                               # When clicked off, replaces placeholder text
+        self.insert(                # Inserts placeholder text initially
+            "end", self.placeholder
+        )                               
+        self.bind(                  # When clicked on, removes placeholder text
+            "<FocusIn>", self.remove_placeholder
+        )                               
+        self.bind(                  # When clicked off, replaces placeholder text
+            "<FocusOut>", self.add_placeholder
+        )                               
 
-    def remove_placeholder(
-        self,
-        event
-    ):
+    def remove_placeholder(self, event):
         """
         Remove placeholder text if present.
         """
         if self.get() == self.placeholder:      # If when clicked, the contents of the entry box are still the placeholder text
-            self.delete(                        # ... it gets removed
-                0, "end"
-            )                 
+            self.delete( 0, "end")              # ... it gets removed
 
-    def add_placeholder(
-        self, 
-        event
-    ):
+    def add_placeholder(self, event):
         """
         Add placeholder text if the entrybox is empty.
         """
         if self.placeholder and self.get() == "":   # If placeholder and contents of entry box are empty / nothing
-            self.insert(                            # ... inserts placeholder back into entry box
-                0, self.placeholder
-            )                                       
+            self.insert(0, self.placeholder)        # ... inserts placeholder back into entry box                                     
