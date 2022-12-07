@@ -4,3 +4,4 @@ testfile.py
 user_active.txt
 __pycache__/*
 .gitignore
+readme.txt

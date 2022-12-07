@@ -12,6 +12,7 @@ class MenuHandler:
         """
         Creates window for the buttons for the seperate rooms.
         """
+
         self.room_number = 0
         self.button_press = False       # Boolean used to return whether user pressed the button for the next window
 
@@ -20,6 +21,7 @@ class MenuHandler:
         Creates three buttons for the user to click on - passes 1, 2, or 3 to the room_number variable accepted in the 'show' function
         This is then taken by the program_logic file to pass to the calendar_display file.
         """
+
         self.button_press = False
 
         self.window = Tk()
@@ -27,7 +29,7 @@ class MenuHandler:
         self.window.title("Menu")
         self.window.geometry("215x50")
         self.window.configure(
-            background="#CEEAF6"
+            bg = "#CEEAF6"
         )
 
         room_1 = Button(
@@ -66,6 +68,7 @@ class MenuHandler:
         """
         Function for the button in order to pass room number and button_press (= True) to program_logic
         """
+        
         self.window.destroy()
         self.button_press = True
         self.room_number = room_number

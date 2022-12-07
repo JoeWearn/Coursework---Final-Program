@@ -74,11 +74,12 @@ class LoginHandler:
         """
         Creates login screen visuals using Tkinter.
         """
-        self.window = Tk()
-        self.window.geometry("1536x864")
-        self.window.title("Login")
-        self.window.configure(
-            background = "#CEEAF6"
+
+        self.window = Tk()                  # Instantiates Tkinter class (window)
+        self.window.geometry("1536x864")    # Assigns geometry of window
+        self.window.title("Login")          # Assigns title
+        self.window.configure(              # Congifures background to match colour scheme
+            bg = "#CEEAF6"
         )
 
         # Creates (image) frame for login
@@ -198,6 +199,7 @@ class LoginHandler:
         This function is toggles between displaying plain text and '****' in the password entry box, called when the 
         'password_visibility_button' button is clicked.
         """
+
         if self.hidden == True:
             password.config(show = "")
             self.hidden = False
@@ -211,6 +213,7 @@ class EntryPlaceholders(Entry):
         Extends generic Tkinter Entry class - when entry box is clicked, placeholder text is wiped. When no longer clicked, if the 
         entry box is empty, replaces placeholder text.
         """
+
         self.placeholder = kwargs.pop(      # Pops placeholder text from kwargs and stores as self.placeholder
             "placeholder", ""
         )                                   
@@ -228,14 +231,16 @@ class EntryPlaceholders(Entry):
 
     def remove_placeholder(self, event):
         """
-        Remove placeholder text if present.
+        Removes placeholder text if present.
         """
+
         if self.get() == self.placeholder:      # If when clicked, the contents of the entry box are still the placeholder text
             self.delete( 0, "end")              # ... it gets removed
 
     def add_placeholder(self, event):
         """
-        Add placeholder text if the entrybox is empty.
+        Adds placeholder text if the entrybox is empty.
         """
+        
         if self.placeholder and self.get() == "":   # If placeholder and contents of entry box are empty / nothing
             self.insert(0, self.placeholder)        # ... inserts placeholder back into entry box                                     

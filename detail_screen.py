@@ -49,18 +49,97 @@ class RegisterHandler:
                 "ERROR", "Invalid entry detected."  
             )    
 
-
-    def register_user(
-        self
-    ):
+    def len_validation(self):
         """
-        Registers customer information to database.
+        Validates the length of user inputs in order to minimise storage space allocated.
+        """
+        self.validated = True
+
+        # Email length validation
+        if len(self.register_email.get()) > 30:
+            messagebox.showinfo(
+                "ERROR", "Email cannot exceed 30 characters."  
+            )    
+            self.validated = False
+
+        elif (len(self.register_email.get()) < 16
+            and self.validated == True):
+            messagebox.showinfo(
+                "ERROR", "Email cannot be less than 16 characters."  
+            )    
+            self.validated = False
+
+        # Password length validation
+        elif (len(self.register_password.get()) > 30
+            and self.validated == True):
+            messagebox.showinfo(
+                "ERROR", "Password cannot exceed 30 characters."  
+            )
+            self.validated = False
+        elif (len(self.register_email.get()) < 8
+            and self.validated == True):
+            messagebox.showinfo(
+                "ERROR", "Password cannot be less than 8 characters."  
+            )    
+            self.validated = False
+
+        # First name validation
+        elif (len(self.register_first_name.get()) > 30
+            and self.validated == True):
+            messagebox.showinfo(
+                "ERROR", "First name cannot exceed 30 characters."  
+            )    
+            self.validated = False
+
+        elif (len(self.register_first_name.get()) < 3
+            and self.validated == True):
+            messagebox.showinfo(
+                "ERROR", "First name cannot be less than 3 characters."  
+            )    
+            self.validated = False
+
+        # Last name validation    
+        elif (len(self.register_last_name.get()) > 30
+            and self.validated == True):
+            messagebox.showinfo(
+                "ERROR", "Last name cannot exceed 30 characters."  
+            )    
+            self.validated = False
+
+        elif (len(self.register_last_name.get()) < 3
+            and self.validated == True):
+            messagebox.showinfo(
+                "ERROR", "Last name cannot be less than 3 characters."  
+            )    
+            self.validated = False
+        
+        # Address validation
+        elif (len(self.register_address.get()) > 8
+            and self.validated == True):
+            messagebox.showinfo(
+                "ERROR", "Address cannot exceed 8 characters."  
+            )    
+            self.validated = False
+
+        elif (len(self.register_address.get()) < 6
+            and self.validated == True):
+            messagebox.showinfo(
+                "ERROR", "Address cannot be less than 6 characters."  
+            )    
+            self.validated = False
+
+        if self.validated == True:
+            self.send_user_data()
+
+    def register_user(self):
+        """
+        Creates window & entry boxes for user info to register.
         """
         self.window = Tk()
         self.window.geometry("1536x864")
         self.window.title("Register")
         self.window.configure(
-            background = "#CEEAF6"
+            bg = "#CEEAF6"
         ) 
 
         self.register_email = StringVar()           # Email input defined as StringVar
@@ -133,7 +212,7 @@ class RegisterHandler:
             self.window,
             text = "Register",
             background = "white",
-            command = lambda: self.send_user_data(),
+            command = lambda: self.len_validation(),
         )
         login_button.place(
             x = 680, y = 450,
@@ -149,6 +228,7 @@ class EntryPlaceholders(Entry):
         Extends generic Tkinter Entry class - when entry box is clicked, placeholder text is wiped. When no longer clicked, if the 
         entry box is empty, replaces placeholder text.
         """
+
         self.placeholder = kwargs.pop(      # Pops placeholder text from kwargs and stores as self.placeholder
             "placeholder", ""
         )                                   
@@ -168,6 +248,7 @@ class EntryPlaceholders(Entry):
         """
         Remove placeholder text if present.
         """
+
         if self.get() == self.placeholder:      # If when clicked, the contents of the entry box are still the placeholder text
             self.delete( 0, "end")              # ... it gets removed
 
@@ -175,5 +256,6 @@ class EntryPlaceholders(Entry):
         """
         Add placeholder text if the entrybox is empty.
         """
+
         if self.placeholder and self.get() == "":   # If placeholder and contents of entry box are empty / nothing
             self.insert(0, self.placeholder)        # ... inserts placeholder back into entry box                                     

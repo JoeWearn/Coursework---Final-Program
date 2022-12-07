@@ -1,3 +1,5 @@
+# Imports
+
 import login_screen
 import detail_screen
 import rooms_menu
@@ -5,14 +7,9 @@ import calendar_display
 
 """
 Run this file for program to work.
-
-My python files make use of docstrings (such as this one), and comments to explain code. Typically, I have used docstrings to explain
-the purpose of a class, method, or a large chunk of code targeted for a specific purpose I conidered complex enough to justify
-a deeper explanation. Comments have been used for general explanations and explanations for specific lines of code.
 """
 
 # Defines Booleans
-
 loop = True
 loop2 = True
 
@@ -45,6 +42,7 @@ while loop == True:         # Creates a loop to allow user to cycle between 'log
 
 if login.login_successful:                  # Onced logged in, retrieves credentials input by user and stores locally
     credentials = login.credentials
+
 
     while loop2 == True:            # Creates a loop to allow user to cycle between 'room_no_buttons' and 'calendar_display'
         menu.create_window()        # Runs create_window method from menu object
