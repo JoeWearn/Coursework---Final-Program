@@ -76,6 +76,7 @@ class RegisterHandler:
                 "ERROR", "Password cannot exceed 30 characters."  
             )
             self.validated = False
+
         elif (len(self.register_email.get()) < 8
             and self.validated == True):
             messagebox.showinfo(
@@ -128,6 +129,7 @@ class RegisterHandler:
             )    
             self.validated = False
 
+        # If all input lengths are valid, run next method
         if self.validated == True:
             self.send_user_data()
 

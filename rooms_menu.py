@@ -2,10 +2,9 @@
 
 from tkinter import *
 import tkinter as tk
-from tkinter import ttk
 
-# Def
 
+# Defs
 
 class MenuHandler:
     def __init__(self):

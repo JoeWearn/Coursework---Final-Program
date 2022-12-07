@@ -2,7 +2,6 @@
 
 from tkinter import *
 import tkinter as tk
-from tkinter import ttk
 from datetime import date
 import sqlite3
 import math
@@ -310,11 +309,11 @@ class CalendarGUIHandler:
         r_no = self.room_number
 
         for row in range(6):
-            for column in range(7):     # 7 cross for days of week
-                if (
-                    index >= start_date                         # Creates a frame that will hold each day and button
+            for column in range(7):         # 7 cross for days of week
+                if (                        # Creates a frame that will hold each day and button
+                    index >= start_date     # Ensures calendar produces as many frames as days in month
                     and
-                    index <= start_date + number_of_days - 1
+                    index <= start_date + number_of_days - 1    # Ensures calendar starts on correct weekday
                 ):
 
                     day_frame = Frame(
@@ -360,8 +359,7 @@ class CalendarGUIHandler:
                     if month == date[1]:
                         dict[date[2]].set_booked()
 
-    def load_bookings(self
-    ):
+    def load_bookings(self):
         """
         Loads bookings from database.
         """
@@ -491,9 +489,9 @@ class CalendarDayButton(Button):
         self.year = year            # Locally defines passed variables
         self.month = month          #   "       "       "       "
         self.day = day              # ...
-        self.calendar = calendar    # ...
         self.user_ID = user_ID      # ...         
         self.r_no = r_no            # ...
+        self.calendar = calendar    # Locally defines CalendarGUI class as calendar variable
 
 
     def button_click(self):                             # On button click ...
