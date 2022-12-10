@@ -381,7 +381,7 @@ class CalendarGUIHandler:
         year
     ):
         """
-        Calculates if year it is a leap year.
+        Calculates if year is a leap year.
         """
 
         # Calculation for if leap year

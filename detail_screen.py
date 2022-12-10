@@ -2,7 +2,6 @@
 from tkinter import *
 from tkinter import messagebox
 import tkinter as tk
-from tkinter import ttk
 import sqlite3
 import re
 

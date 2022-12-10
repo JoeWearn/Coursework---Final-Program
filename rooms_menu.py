@@ -65,7 +65,7 @@ class MenuHandler:
         room_number
     ):
         """
-        Function for the button in order to pass room number and button_press (= True) to program_logic
+        Function for the button in order to pass room number and button_press (= True) to program_logic.
         """
         
         self.window.destroy()

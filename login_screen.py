@@ -26,6 +26,7 @@ class LoginHandler:
         self.login_successful = False       # Boolean for successful login
         self.register_account = False       # Boolean for regiserting an account
         self.hidden = False                 # Boolean for whether password is hidden
+        self.truncated = False
 
     def register(self):
         """
@@ -34,15 +35,35 @@ class LoginHandler:
         self.window.destroy()
         self.register_account = True
 
+    def limit_username(self,
+        *args
+    ):
+        """
+        Truncates username input if exceeds 30 characters.
+        """
+        value = self.login_username.get()
+        if len(value) > 30:
+            self.login_username.set(value[:30])
+
+    def limit_password(self,
+        *args
+    ):
+        """
+        Truncates password input if exceeds 30 characters.
+        """
+        value = self.login_password.get()
+        if len(value) > 30: 
+            self.login_password.set(value[:30])
+
     def login(self):
         """
         Authenticates login for existing accounts.
         """
+
         self.credentials = [
             self.login_username.get(),
             self.login_password.get()
         ]                               # Username and password put into a list
-
 
         # SQL for selecting the email and password from database corresponding to the username input by user
 
@@ -58,6 +79,11 @@ class LoginHandler:
         connection.close()                      # Closes connection to database
 
         # If username and password input by user match the username and password retrieved from database, successfully login
+        # print(self.credentials)
+        # print(self.credentials[0])
+        # print(self.credentials[1])
+        if output == None:
+            output = ['x','y']
         if (self.credentials[0] == output[0]
             and self.credentials[1] == output[1]
         ):
@@ -126,7 +152,9 @@ class LoginHandler:
         )
 
         # Username input is defined as a StringVar
-        self.login_username = StringVar()   
+        self.login_username = StringVar()
+        # Binds function to self.login.username - whenever content is changed, function runs
+        self.login_username.trace('w', self.limit_username)
         # Creates username entrybox
         username = EntryPlaceholders(
             self.window,
@@ -140,6 +168,8 @@ class LoginHandler:
 
         # Password input is defined as a StringVar
         self.login_password = StringVar()
+        # Binds function to self.login.username - whenever content is changed, function runs
+        self.login_password.trace('w', self.limit_password)
         # Creates Password entrybox                      
         password = EntryPlaceholders(                          
             self.window,
